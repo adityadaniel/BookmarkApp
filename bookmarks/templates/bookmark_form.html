@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    {% if create %}
+        Create New Bookmark
+    {% else %}
+        Edit Bookmark
+    {% endif %}
+{% endblock title %}
+
+{% block heading %}
+    <h2>
+        {% if create %}
+            Create new bookmark
+        {% else %}
+            Edit bookmark
+        {% endif %}
+    </h2>
+{% endblock heading %}
+
+{% block content %}
+    {% if create %}
+        {% url 'bookmark_create_view' as action_url %}
+    {% else %}
+        {% url 'bookmark_edit_view' form.instance.pk as action_url %}
+    {% endif %}
+    <form action="{{ action_url }}" method="POST" accept-charset="utf-8">
+        {{ form|crispy }}
+        {% csrf_token %}
+        <p>
+            <input type="submit" class="btn btn-default" value="save">
+        </p>
+    </form>
+{% endblock %}
